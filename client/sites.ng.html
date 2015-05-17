@@ -1,0 +1,25 @@
+<div ng-controller="SitesController" class="container">
+    <h1>Site checker</h1>
+    <div ng-if="!adding">
+        <div class="btn btn-success" ng-click="toggleAdding()">Add site(s)</div>
+    </div>
+    <div ng-if="adding">
+        <textarea ng-model="$parent.newSites" placeholder="Enter site URLs"></textarea>
+        <div class="btn btn-primary" ng-click="addSites()">Save</div>
+        <div class="btn btn-default" ng-click="adding=false">Cancel</div>
+    </div>
+    <table class="table table-stripped">
+        <tr>
+            <th>Site URL</th>
+            <th>Last 24 hours</th>
+            <th>Last hour</th>
+            <th width="1%">Actions</th>
+        </tr>
+        <tr ng-repeat="site in sites" ng-class="upRatioClass(site, 15 * 60 * 1000)">
+            <td><a href="{{ site.url }}">{{ site.url }}</a></td>
+            <td>{{ upRatio(site, 24 * 60 * 60 * 1000) | number:1 }} %</td>
+            <td>{{ upRatio(site, 60 * 60 * 1000) | number:1 }} %</td>
+            <td><div class="btn btn-danger btn-xs" ng-click="removeSite(site)">Remove</div></td>
+        </tr>
+    </table>
+</div>
